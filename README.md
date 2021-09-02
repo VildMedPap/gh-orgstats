@@ -44,6 +44,7 @@ Get _all_ statistics from an organisation and output as json
 ```sh
 gh orgstats --org cli --json
 # {
+#   "members": 6,
 #   "repos": 4,
 #   "open_issues": 356,
 #   "closed_issues": 1737

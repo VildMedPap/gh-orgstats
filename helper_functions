@@ -16,6 +16,8 @@
 # Usage
 # get_help
 # get_repos [organization name]
+# get_open_issues [organization name]
+# get_closed_issues [organization name]
 
 get_help() {
     printf "Organisation specific extension for gh cli to retrieve different statistics

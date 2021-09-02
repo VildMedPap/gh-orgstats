@@ -56,6 +56,11 @@ do
     shift
 done
 
+if [ -z $STATS ]
+then
+    STATS=repos,open_issues,closed_issues
+fi
+
 # Retrieve number of repos
 if [[ $STATS == *"repos"* ]]
 then

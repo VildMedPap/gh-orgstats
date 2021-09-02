@@ -50,8 +50,8 @@ get_repos() {
     }
     '
 
-    repos=$(gh api graphql -F login="${1}" -f query="${QUERY}" --jq '.data.organization.repositories.totalCount')
-    echo $repos
+    gh api graphql -F login="${1}" -f query="${QUERY}" --jq '.data.organization.repositories.totalCount'
+
 }
 
 get_open_issues() {

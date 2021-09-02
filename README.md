@@ -19,24 +19,35 @@ Get a single statistic from an organisation
 
 ```sh
 gh orgstats --org cli --stats repos
+# ✓ 4 repositories
 ```
 
 Get a single statistic from an organisation with very plain output (only the number)
 
 ```sh
 gh orgstats --org cli --stats repos --plain
+# 4
 ```
 
 Get multiple statistics from an organisation and output as json
 
 ```sh
 gh orgstats --org cli --stats open_issues,closed_issues --json
+# {
+#   "open_issues": 356,
+#   "closed_issues": 1737
+# }
 ```
 
 Get _all_ statistics from an organisation and output as json
 
 ```sh
 gh orgstats --org cli --json
+# {
+#   "repos": 4,
+#   "open_issues": 356,
+#   "closed_issues": 1737
+# }
 ```
 
 ## Help

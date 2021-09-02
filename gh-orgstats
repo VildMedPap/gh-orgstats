@@ -56,21 +56,44 @@ do
     shift
 done
 
+# Retrieve number of repos
 if [[ $STATS == *"repos"* ]]
 then
     value=$(get_repos $ORG)
-    repos=$value
-    if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} repositories\n"; else echo $value;fi
+
+    if [ ! -z $JSON ]
+    then
+        JSON_FMT+="\"repos\": $value,"
+    else
+        if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} repositories\n"; else echo $value;fi
+    fi
 fi
 
+# Retrieve open issues
 if [[ $STATS == *"open_issues"* ]]
 then
     value=$(get_open_issues $ORG)
-    if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} issues are marked as \"open\"\n"; else echo $value;fi
+
+    if [ ! -z $JSON ]
+    then
+        JSON_FMT+="\"open_issues\": $value,"
+    else
+        if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} issues are marked as \"open\"\n"; else echo $value;fi
+    fi
 fi
 
+# Retrieve closed issues
 if [[ $STATS == *"closed_issues"* ]]
 then
     value=$(get_closed_issues $ORG)
-    if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} issues are marked as \"closed\"\n"; else echo $value;fi
+
+    if [ ! -z $JSON ]
+    then
+        JSON_FMT+="\"closed_issues\": $value,"
+    else
+        if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} issues are marked as \"closed\"\n"; else echo $value;fi
+    fi
 fi
+
+# Concatenate to json
+if [ ! -z $JSON ];then echo "{${JSON_FMT::-1}}"|jq .;fi

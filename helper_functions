@@ -15,6 +15,7 @@
 
 # Usage
 # get_help
+# get_repos [organization name]
 
 get_help() {
     printf "Organisation specific extension for gh cli to retrieve different statistics
@@ -36,4 +37,19 @@ get_help() {
 \033[1mLEARN MORE\033[0m
     https://github.com/VildMedPap/gh-orgstats
 "
+}
+
+get_repos() {
+    QUERY='
+    query ($login: String!) {
+        organization(login: $login) {
+            repositories(isFork: false) {
+                totalCount
+            }
+        }
+    }
+    '
+
+    repos=$(gh api graphql -F login="${1}" -f query="${QUERY}" --jq '.data.organization.repositories.totalCount')
+    echo $repos
 }

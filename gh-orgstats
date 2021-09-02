@@ -21,6 +21,10 @@
 # gh orgstats --help
 set -e
 
+# Source helper functions
+DIR="$(dirname "$0")"
+. "$DIR/helper_functions"
+
 # Parse arguments
 # Solution borrowed from https://unix.stackexchange.com/a/580258
 while [ $# -gt 0 ]
@@ -51,3 +55,10 @@ do
     esac
     shift
 done
+
+if [[ $STATS == *"repos"* ]]
+then
+    value=$(get_repos $ORG)
+    repos=$value
+    if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} repositories\n"; else echo $value;fi
+fi

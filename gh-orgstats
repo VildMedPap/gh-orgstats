@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# Copyright (c) 2021 Sebastian Steenssøe
+# All rights reserved.
+
+# This source code is licensed under the MIT-style license found in the
+# LICENSE file in the root directory of this source tree.
+
+# Author: Sebastian Steenssøe
+# Date Created: 02/09/2021
+# Last Modified: 02/09/2021
+
+# Description
+# Organisation specific extension for gh cli to retrieve different statistics
+
+# Source(s)
+# https://github.com/VildMedPap/gh-orgstats
+
+# Usage
+# gh extension install VildMedPap/gh-orgstats
+# gh orgstats --help
+set -e
+
+# Parse arguments
+# Solution borrowed from https://unix.stackexchange.com/a/580258
+while [ $# -gt 0 ]
+do
+    case "$1" in
+        --org*|-o*)
+            if [[ "$1" != *=* ]]; then shift; fi
+            ORG="${1#*=}"
+            ;;
+        --stats*|-s*)
+            if [[ "$1" != *=* ]]; then shift; fi
+            STATS="${1#*=}"
+            ;;
+        --plain*|-p*)
+            PLAIN=0
+            ;;
+        --json*|-j*)
+            JSON=0
+            ;;
+        --help|-h)
+            get_help
+            exit 0
+            ;;
+        *)
+            >&2 printf "Error: Invalid argument\n"
+            exit 1
+            ;;
+    esac
+    shift
+done

@@ -14,5 +14,12 @@ gh orgstats --org cli --stats repos
 # gh orgstats [flags]
 ```
 
+## Help
+```sh
+gh orgstats --help
+```
+
 ## Issues and Feature Request
+Any help or feedback are very welcome! 👋🏼
+
 - https://github.com/VildMedPap/gh-orgstats/issues

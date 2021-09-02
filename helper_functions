@@ -77,3 +77,27 @@ get_open_issues() {
     open_issues_arr=$(gh api graphql --paginate -F login="${1}" -f query="${QUERY}" --jq '.data.organization.repositories.edges.[].node.issues.totalCount')
     echo ${open_issues_arr[@]} | sed 's/ /+/g' | bc
 }
+
+get_closed_issues() {
+    QUERY='
+    query ($endCursorRepos: String, $login: String!) {
+        organization(login: $login) {
+            repositories(isFork: false, first: 100, after: $endCursorRepos) {
+                pageInfo {
+                    endCursor
+                }
+                edges {
+                    node {
+                        issues(states: CLOSED) {
+                            totalCount
+                        }
+                    }
+                }
+            }
+        }
+    }
+    '
+
+    closed_issues_arr=$(gh api graphql --paginate -F login="${1}" -f query="${QUERY}" --jq '.data.organization.repositories.edges.[].node.issues.totalCount')
+    echo ${closed_issues_arr[@]} | sed 's/ /+/g' | bc
+}

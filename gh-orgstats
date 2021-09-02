@@ -58,7 +58,20 @@ done
 
 if [ -z $STATS ]
 then
-    STATS=repos,open_issues,closed_issues
+    STATS=repos,open_issues,closed_issues,members
+fi
+
+# Retrieve members count
+if [[ $STATS == *"members"* ]]
+then
+    value=$(get_members $ORG)
+
+    if [ ! -z $JSON ]
+    then
+        JSON_FMT+="\"members\": $value,"
+    else
+        if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} members in the organisation\n"; else echo $value;fi
+    fi
 fi
 
 # Retrieve number of repos

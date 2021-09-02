@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Copyright (c) 2021 Sebastian Steenssøe
+# All rights reserved.
+
+# This source code is licensed under the MIT-style license found in the
+# LICENSE file in the root directory of this source tree.
+
+# Author: Sebastian Steenssøe
+# Date Created: 02/09/2021
+# Last Modified: 02/09/2021
+
+# Description
+# Helper functions
+
+# Usage
+# get_help
+
+get_help() {
+    printf "Organisation specific extension for gh cli to retrieve different statistics
+
+\033[1mUSAGE\033[0m
+    gh orgstats [flags]
+
+\033[1mFLAGS\033[0m
+    --org       Name of organization
+    --stats     Comma separated string of statistics
+                stats available: repos, closed_issues, open_issues
+    --plain     Get numbers without pretty output
+    --json      Output as json
+
+\033[1mEXAMPLES\033[0m
+    $ gh orgstats --org cli --stats open_issues,closed_issues,repos
+    $ gh orgstats --org cli --stats open_issues --plain
+
+\033[1mLEARN MORE\033[0m
+    https://github.com/VildMedPap/gh-orgstats
+"
+}

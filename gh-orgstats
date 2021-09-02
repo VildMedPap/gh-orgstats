@@ -62,3 +62,9 @@ then
     repos=$value
     if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} repositories\n"; else echo $value;fi
 fi
+
+if [[ $STATS == *"open_issues"* ]]
+then
+    value=$(get_open_issues $ORG)
+    if [ -z $PLAIN ]; then printf "\033[32m✓\033[0m ${value} issues are marked as \"open\"\n"; else echo $value;fi
+fi

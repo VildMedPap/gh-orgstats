@@ -57,11 +57,12 @@ get_repos() {
 
 get_open_issues() {
     QUERY='
-    query ($endCursorRepos: String, $login: String!) {
+    query ($endCursor: String, $login: String!) {
         organization(login: $login) {
-            repositories(isFork: false, first: 100, after: $endCursorRepos) {
+            repositories(isFork: false, first: 100, after: $endCursor) {
                 pageInfo {
                     endCursor
+                    hasNextPage
                 }
                 edges {
                     node {
@@ -81,11 +82,12 @@ get_open_issues() {
 
 get_closed_issues() {
     QUERY='
-    query ($endCursorRepos: String, $login: String!) {
+    query ($endCursor: String, $login: String!) {
         organization(login: $login) {
-            repositories(isFork: false, first: 100, after: $endCursorRepos) {
+            repositories(isFork: false, first: 100, after: $endCursor) {
                 pageInfo {
                     endCursor
+                    hasNextPage
                 }
                 edges {
                     node {
@@ -101,4 +103,27 @@ get_closed_issues() {
 
     closed_issues_arr=$(gh api graphql --paginate -F login="${1}" -f query="${QUERY}" --jq '.data.organization.repositories.edges.[].node.issues.totalCount')
     echo ${closed_issues_arr[@]} | sed 's/ /+/g' | bc
+}
+
+get_members() {
+    QUERY='
+    query ($endCursor: String, $login: String!) {
+        organization(login: $login) {
+            membersWithRole(first: 100, after: $endCursor) {
+                pageInfo {
+                    endCursor
+                    hasNextPage
+                }
+                edges {
+                    node {
+                        login
+                    }
+                }
+            }
+        }
+    }
+    '
+
+    members_arr=$(gh api graphql --paginate -F login="${1}" -f query="${QUERY}" --jq '[.data.organization.membersWithRole.edges.[].node.login]|length')
+    echo ${members_arr[@]} | sed 's/ /+/g' | bc
 }
